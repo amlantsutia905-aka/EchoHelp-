@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EchoHelp | Your Voice Can Save Someone</title>
+
+<style>
+:root {
+  --bg:#080f1e;
+  --panel:#111d31;
+  --panel2:#17263c;
+  --blue:#397cff;
+  --cyan:#48d8df;
+  --white:#f4f7ff;
+  --muted:#9aabc4;
+  --red:#ff5364;
+  --green:#43d6a0;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--white);
+  font-family:Arial,sans-serif;
+}
+header {
+  padding:20px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #24334a;
+}
+.logo {font-size:23px;font-weight:800}
+.logo span {color:var(--cyan)}
+.status {color:var(--green);font-size:12px}
+main {max-width:1050px;margin:auto;padding:35px 20px}
+.hero {text-align:center;margin-bottom:30px}
+.tag {
+  color:var(--cyan);
+  font-size:12px;
+  letter-spacing:3px;
+  font-weight:bold;
+}
+h1 {font-size:clamp(32px,6vw,52px);margin:15px 0}
+.hero p {color:var(--muted);line-height:1.7}
+.layout {
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:20px;
+}
+.card {
+  background:var(--panel);
+  border:1px solid #263850;
+  padding:24px;
+  border-radius:20px;
+  margin-bottom:20px;
+}
+.card h2 {font-size:19px;margin-top:0}
+.muted {color:var(--muted);font-size:13px;line-height:1.6}
+.mic-area {text-align:center;padding:20px 0}
+.mic {
+  width:115px;height:115px;
+  border-radius:50%;
+  border:0;
+  background:linear-gradient(135deg,#397cff,#31c9d7);
+  color:white;
+  font-size:43px;
+  cursor:pointer;
+  box-shadow:0 0 35px #397cff55;
+  transition:.2s;
+}
+.mic:hover {transform:scale(1.06)}
+.mic.listening {
+  background:var(--red);
+  animation:pulse 1s infinite;
+}
+@keyframes pulse {
+  50% {box-shadow:0 0 0 20px #ff536422}
+}
+textarea {
+  width:100%;min-height:110px;
+  background:#091426;
+  border:1px solid #30445e;
+  border-radius:12px;
+  padding:14px;color:white;
+  resize:vertical;font:inherit;
+}
+input {
+  width:100%;padding:12px;
+  background:#091426;
+  border:1px solid #30445e;
+  border-radius:9px;color:white;
+  margin:8px 0;
+}
+button {
+  border:0;border-radius:10px;
+  padding:12px 17px;
+  cursor:pointer;font-weight:bold;
+  font-size:14px;
+}
+.primary {
+  background:var(--blue);color:white;
+  width:100%;margin-top:12px;
+}
+.secondary {
+  background:var(--panel2);
+  color:white;border:1px solid #354963;
+}
+.danger {background:#b82f43;color:white}
+.mic-label {margin:15px 0;color:var(--cyan)}
+.result {
+  display:none;
+  background:#091426;
+  padding:18px;border-radius:13px;
+  margin-top:18px;
+  border:1px solid #354963;
+}
+.risk {
+  display:inline-block;padding:7px 13px;
+  border-radius:20px;font-size:12px;
+  font-weight:bold;margin-bottom:12px;
+}
+.high {background:#54232d;color:#ff8794}
+.medium {background:#55451f;color:#ffd36c}
+.low {background:#174838;color:#68e7b2}
+.result h3 {margin:8px 0}
+.result p {line-height:1.6;color:#d1dcec;font-size:14px}
+.actions {
+  display:flex;flex-wrap:wrap;gap:10px;
+  margin-top:15px;
+}
+.actions button {flex:1}
+.feature-grid {
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+}
+.feature {
+  background:var(--panel2);
+  border-radius:12px;padding:15px;
+}
+.feature b {display:block;margin-bottom:7px}
+.feature small {color:var(--muted);line-height:1.5}
+.guide-item {
+  padding:13px 0;border-bottom:1px solid #293a50;
+  color:#d7e3f5;font-size:14px;line-height:1.5;
+}
+.guide-item:last-child {border:0}
+footer {
+  text-align:center;color:var(--muted);
+  font-size:12px;padding:25px;
+}
+.notice {
+  background:#332c19;color:#ffe3a0;
+  padding:13px;border-radius:10px;
+  font-size:12px;line-height:1.6;margin-top:15px;
+}
+.hidden {display:none}
+@media(max-width:720px) {
+  .layout {grid-template-columns:1fr}
+  main {padding:25px 14px}
+  header {padding:18px}
+  .feature-grid {grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🛟 Echo<span>Help</span></div>
+  <div class="status">● READY TO HELP</div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="tag">AI POWERED EMERGENCY ASSISTANT</div>
+  <h1>Your Voice Can<br><span style="color:#48d8df">Save Someone.</span></h1>
+  <p>
+    Speak naturally. Get intelligent emergency guidance.
+    Find a safer next step when every second matters.
+  </p>
+</section>
+
+<div class="layout">
+
+<!-- LEFT SIDE -->
+<div>
+
+  <section class="card">
+    <h2>🎙️ Tell us what happened</h2>
+    <p class="muted">
+      Press the microphone and describe your situation,
+      or type your message below.
+    </p>
+
+    <div class="mic-area">
+      <button class="mic" id="micBtn" onclick="toggleVoice()">🎙️</button>
+      <div class="mic-label" id="micLabel">Tap to speak</div>
+      <div class="muted" id="voiceSupport"></div>
+    </div>
+
+    <label class="muted" for="lang" style="display:block;margin-bottom:6px">🌐 Language / भाषा / ভাষা</label>
+    <select id="lang" style="width:100%;padding:12px;margin-bottom:12px;background:#091426;color:white;border:1px solid #30445e;border-radius:9px;font:inherit">
+      <option value="en-IN" data-name="English">English</option>
+      <option value="hi-IN" data-name="Hindi">हिन्दी (Hindi)</option>
+      <option value="as-IN" data-name="Assamese">অসমীয়া (Assamese)</option>
+      <option value="bn-IN" data-name="Bengali">বাংলা (Bengali)</option>
+      <option value="ta-IN" data-name="Tamil">தமிழ் (Tamil)</option>
+      <option value="te-IN" data-name="Telugu">తెలుగు (Telugu)</option>
+      <option value="mr-IN" data-name="Marathi">मराठी (Marathi)</option>
+      <option value="gu-IN" data-name="Gujarati">ગુજરાતી (Gujarati)</option>
+      <option value="kn-IN" data-name="Kannada">ಕನ್ನಡ (Kannada)</option>
+      <option value="ml-IN" data-name="Malayalam">മലയാളം (Malayalam)</option>
+      <option value="pa-IN" data-name="Punjabi">ਪੰਜਾਬੀ (Punjabi)</option>
+      <option value="or-IN" data-name="Odia">ଓଡ଼ିଆ (Odia)</option>
+      <option value="ur-IN" data-name="Urdu">اردو (Urdu)</option>
+    </select>
+
+    <textarea id="userMessage"
+      placeholder="Example: My friend has fainted and is not responding..."></textarea>
+
+    <button class="primary" id="analyzeBtn" onclick="analyzeSituation()">
+      ✨ ANALYZE MY SITUATION
+    </button>
+
+    <div id="loading" class="muted hidden" style="margin-top:15px">
+      🧠 EchoHelp AI is understanding your situation...
+    </div>
+
+    <div id="result" class="result">
+      <div id="riskBadge" class="risk medium">MEDIUM RISK</div>
+      <h3 id="resultTitle">Situation detected</h3>
+      <p id="resultType"></p>
+      <p id="resultGuidance"></p>
+      <a id="highCall" class="hidden" href="tel:112" style="text-decoration:none">
+        <button class="danger" style="width:100%;padding:16px;margin-top:6px">
+          📞 CALL 112 NOW
+        </button>
+      </a>
+      <div class="actions">
+        <button class="secondary" onclick="speakResult()">🔊 Listen</button>
+        <button class="secondary" onclick="shareResult()">↗ Share</button>
+      </div>
+    </div>
+
+    <div class="notice">
+      ⚠️ EchoHelp is a prototype, not a replacement for emergency
+      professionals. For immediate danger, contact emergency services
+      directly. Never wait for an AI response.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>📍 Emergency Location</h2>
+    <p class="muted">
+      Get your current coordinates and share them with a trusted contact.
+      Location sharing requires your permission.
+    </p>
+    <button class="secondary" style="width:100%" onclick="getLocation()">
+      📍 GET MY LOCATION
+    </button>
+    <p id="locationText" class="muted"></p>
+    <button id="shareLocationBtn" class="primary hidden"
+      onclick="shareLocation()">
+      ↗ SHARE MY LOCATION
+    </button>
+  </section>
+
+  <section class="card">
+    <h2>🆘 Emergency Assistance</h2>
+    <p class="muted">
+      In India, call 112 for emergency assistance.
+      This button requires you to confirm the call on your device.
+    </p>
+    <a href="tel:112" style="text-decoration:none">
+      <button class="danger" style="width:100%;padding:16px">
+        📞 CALL EMERGENCY SERVICES — 112
+      </button>
+    </a>
+  </section>
+
+</div>
+
+<!-- RIGHT SIDE -->
+<div>
+
+  <section class="card">
+    <h2>⚡ How EchoHelp Works</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <b>🎙️ Voice SOS</b>
+        <small>Describe an emergency using your voice.</small>
+      </div>
+      <div class="feature">
+        <b>🧠 AI Detection</b>
+        <small>Understand the type and urgency of the situation.</small>
+      </div>
+      <div class="feature">
+        <b>💡 Smart Guidance</b>
+        <small>Receive clear, practical next steps.</small>
+      </div>
+      <div class="feature">
+        <b>📍 Location</b>
+        <small>Share your location with trusted people.</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>📖 Offline Emergency Guide</h2>
+    <p class="muted">
+      These basic safety reminders are available even when AI is offline.
+    </p>
+    <div class="guide-item">
+      <b>❤️ Unresponsive person</b><br>
+      Call emergency services. Check breathing. Follow the emergency
+      dispatcher's instructions. Start CPR if trained or guided to do so.
+    </div>
+    <div class="guide-item">
+      <b>🔥 Fire</b><br>
+      Leave the building if safe. Avoid elevators. Stay low if there
+      is smoke. Never re-enter a burning building.
+    </div>
+    <div class="guide-item">
+      <b>🚶 Personal safety</b><br>
+      Move toward a populated, well-lit place if possible.
+      Contact a trusted person or emergency services.
+    </div>
+    <div class="guide-item">
+      <b>🚗 Road accident</b><br>
+      Keep yourself safe. Call emergency services.
+      Do not move an injured person unless there is immediate danger.
+    </div>
+    <div class="guide-item">
+      <b>📍 Lost or stranded</b><br>
+      Stay in a safe public location. Share your location
+      with someone you trust.
+    </div>
+  </section>
+
+  <section class="card">
+    <details>
+    <summary style="cursor:pointer;font-weight:bold;font-size:15px;margin-bottom:10px">🔐 Developer settings (optional)</summary>
+    <p class="muted">
+      Enter your Google AI Studio API key to activate Gemini AI.
+      It is kept only for this browser session.
+    </p>
+    <input type="password" id="apiKey"
+      placeholder="Paste your Gemini API key">
+    <button class="secondary" style="width:100%"
+      onclick="saveKey()">SAVE API KEY</button>
+    <p class="muted" id="keyStatus">Optional. Without a key, EchoHelp gives instant built-in safety guidance.</p>
+    </details>
+  </section>
+
+</div>
+</div>
+
+</main>
+
+<footer>
+  ECHOHELP © 2026 · Built with AI for a safer community.
+  <br><br>
+  An experimental project. Always follow professional emergency advice.
+</footer>
+
+<script>
+let recognition = null;
+let isListening = false;
+let currentLocation = null;
+let lastResult = "";
+
+const apiInput = document.getElementById("apiKey");
+const micBtn = document.getElementById("micBtn");
+const micLabel = document.getElementById("micLabel");
+
+function saveKey() {
+  const key = apiInput.value.trim();
+  if(!key) {
+    alert("Please enter your Gemini API key.");
+    return;
+  }
+  sessionStorage.setItem("echohelp_key",key);
+  apiInput.value = "";
+  document.getElementById("keyStatus").textContent =
+    "✓ API key saved for this session.";
+}
+
+if(sessionStorage.getItem("echohelp_key")) {
+  document.getElementById("keyStatus").textContent =
+    "✓ API key is configured for this session.";
+}
+
+function toggleVoice() {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition) {
+    alert("Voice recognition is not supported in this browser. Try Chrome or use text input.");
+    return;
+  }
+
+  if(isListening) {
+    recognition.stop();
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = document.getElementById("lang").value;
+  recognition.continuous = false;
+  recognition.interimResults = true;
+
+  recognition.onstart = () => {
+    isListening = true;
+    micBtn.classList.add("listening");
+    micLabel.textContent = "Listening... Speak now";
+  };
+
+  recognition.onresult = (event) => {
+    let transcript = "";
+    for(let i=0;i<event.results.length;i++) {
+      transcript += event.results[i][0].transcript;
+    }
+    document.getElementById("userMessage").value = transcript;
+  };
+
+  recognition.onerror = (event) => {
+    micLabel.textContent = "Voice error: " + event.error;
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    micBtn.classList.remove("listening");
+    micLabel.textContent = "Tap to speak";
+  };
+
+  recognition.start();
+}
+
+const SpeechRecognitionAPI =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+document.getElementById("voiceSupport").textContent =
+  SpeechRecognitionAPI
+    ? "Voice recognition is available in this browser."
+    : "Voice recognition unavailable. Text input is ready.";
+
+/* ------------------------------------------------------------------
+   AI CALL WITH RETRY + BACKUP MODELS
+   If the first model is overloaded (503), it retries, then tries the
+   next model in the list.
+------------------------------------------------------------------ */
+const MODELS = [
+  "gemini-3.5-flash-lite",
+  "gemini-3.5-flash",
+  "gemini-3.8-flash"
+];
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function callGemini(prompt, key) {
+  let lastError = new Error("AI request failed");
+
+  for(const model of MODELS) {
+    for(let attempt = 0; attempt < 2; attempt++) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 8000);
+      try {
+        const response = await fetch(
+          "https://generativelanguage.googleapis.com/v1beta/models/" +
+          model + ":generateContent",
+          {
+            method:"POST",
+            signal:controller.signal,
+            headers:{
+              "Content-Type":"application/json",
+              "x-goog-api-key":key
+            },
+            body:JSON.stringify({
+              contents:[{ parts:[{text:prompt}] }],
+              generationConfig:{ responseMimeType:"application/json" }
+            })
+          }
+        );
+
+        clearTimeout(timer);
+
+        if(response.ok) {
+          return await response.json();
+        }
+
+        // Wrong or blocked API key: stop immediately
+        if(response.status === 401 || response.status === 403) {
+          throw new Error("BAD_KEY");
+        }
+
+        let message = "AI request failed (" + response.status + ")";
+        try {
+          const errorData = await response.json();
+          message = errorData.error?.message || message;
+        } catch(e) {}
+        lastError = new Error(message);
+
+        // Busy or overloaded: wait a little and retry this model
+        if(response.status === 503 || response.status === 429 ||
+           response.status === 500) {
+          await wait(1500 * (attempt + 1));
+          continue;
+        }
+
+        // Model not found or bad request: go to the next model
+        break;
+
+      } catch(err) {
+        clearTimeout(timer);
+        if(err.message === "BAD_KEY") throw err;
+        lastError = err;
+        // Timed out: skip straight to the next backup model
+        if(err.name === "AbortError") {
+          lastError = new Error("AI took too long to respond");
+          break;
+        }
+        await wait(1000); // other network problem
+      }
+    }
+  }
+  throw lastError;
+}
+
+/* ------------------------------------------------------------------
+   OFFLINE BACKUP: used when the AI is unavailable
+------------------------------------------------------------------ */
+function offlineAnalysis(message) {
+  const m = message.toLowerCase();
+  const has = (words) => words.some(w => m.includes(w));
+
+  if(has(["faint","unconscious","not responding","unresponsive",
+          "collapsed","not breathing","cant breathe","can't breathe",
+          "heart attack","seizure"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible unresponsive person",
+      type:"Medical emergency (instant safety guidance)",
+      guidance:"1) Call 112 right now. 2) Check if the person is breathing. 3) Follow the dispatcher's instructions. 4) Start CPR only if you are trained or the dispatcher guides you. 5) Stay with the person until help arrives."
+    };
+  }
+  if(has(["bleeding","blood","stab","wound","cut deep"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible severe bleeding",
+      type:"Medical emergency (instant safety guidance)",
+      guidance:"1) Call 112 now. 2) Press firmly on the wound with a clean cloth. 3) Do not remove the cloth, add more on top if soaked. 4) Keep the person lying down and calm."
+    };
+  }
+  if(has(["fire","smoke","burning","gas leak","explosion"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible fire or smoke danger",
+      type:"Fire emergency (instant safety guidance)",
+      guidance:"1) Leave the building if it is safe. 2) Avoid elevators. 3) Stay low if there is smoke. 4) Call 112 once you are outside. 5) Never go back inside."
+    };
+  }
+  if(has(["accident","crash","collision","hit by"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible road accident",
+      type:"Accident (instant safety guidance)",
+      guidance:"1) Keep yourself safe from traffic. 2) Call 112. 3) Do not move an injured person unless there is immediate danger. 4) Share your location."
+    };
+  }
+  if(has(["follow","chasing","attack","threat","unsafe","kidnap",
+          "harass","robbery","robbed","assault"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible personal safety threat",
+      type:"Personal safety (instant safety guidance)",
+      guidance:"1) Move toward a crowded, well-lit place. 2) Call 112 or a trusted person. 3) Share your live location. 4) Do not confront the person."
+    };
+  }
+  if(has(["chok","can't swallow","cant swallow","something stuck in throat"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible choking",
+      type:"Airway emergency (instant safety guidance)",
+      guidance:"1) Call 112 now. 2) If the person cannot cough, speak or breathe: give 5 firm back blows between the shoulder blades. 3) Then give 5 abdominal thrusts (for infants: back blows and chest thrusts only). 4) Repeat until the object comes out or help arrives. 5) If the person becomes unresponsive, follow the dispatcher's CPR instructions."
+    };
+  }
+  if(has(["stroke","face drooping","face is drooping","slurred","cannot speak","can't speak","arm weak"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible stroke",
+      type:"Medical emergency (instant safety guidance)",
+      guidance:"1) Call 112 immediately, every minute matters. 2) Note the time symptoms started. 3) Keep the person sitting or lying comfortably. 4) Do not give food, water or medicine. 5) Stay with them and tell the dispatcher about face drooping, arm weakness or speech trouble."
+    };
+  }
+  if(has(["chest pain","chest pressure","chest tight"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible heart emergency",
+      type:"Medical emergency (instant safety guidance)",
+      guidance:"1) Call 112 now. 2) Help the person sit down and stay calm. 3) Loosen tight clothing. 4) Ask the dispatcher whether to give aspirin. 5) Stay with them, and begin CPR only if they stop responding and breathing, as guided."
+    };
+  }
+  if(has(["snake","snakebite","bitten by"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible snake bite",
+      type:"Medical emergency (instant safety guidance)",
+      guidance:"1) Call 112 and get to a hospital immediately. 2) Keep the person calm and as still as possible. 3) Keep the bitten limb still, at or below heart level. 4) Remove rings and tight items near the bite. 5) Do not cut, suck or tie a tight band on the bite."
+    };
+  }
+  if(has(["poison","overdose","swallowed","drank","ate something","consumed"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible poisoning or overdose",
+      type:"Medical emergency (instant safety guidance)",
+      guidance:"1) Call 112 now. 2) Do not make the person vomit unless a medical professional tells you to. 3) Keep the container, packet or pills to show responders. 4) Note what was taken, how much and when. 5) If the person is unresponsive, follow the dispatcher's instructions."
+    };
+  }
+  if(has(["drown","drowning","fell in water","pulled from water"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible drowning",
+      type:"Water emergency (instant safety guidance)",
+      guidance:"1) Call 112 now. 2) Do not jump in unless you are trained, use a rope, pole or floating object. 3) Once out of the water, check breathing. 4) If not breathing, start CPR as the dispatcher guides. 5) Keep the person warm until help arrives."
+    };
+  }
+  if(has(["allergic","allergy","anaphylaxis","throat swelling","face swelling"])) {
+    return {
+      risk:"HIGH",
+      title:"Possible severe allergic reaction",
+      type:"Medical emergency (instant safety guidance)",
+      guidance:"1) Call 112 now. 2) If the person has an epinephrine auto-injector, help them use it. 3) Keep them lying down unless breathing is difficult, then let them sit up. 4) Do not give food or drink. 5) Stay with them until help arrives."
+    };
+  }
+  if(has(["scald","burnt","burned my","burn injury","hot oil","hot water"])) {
+    return {
+      risk:"MEDIUM",
+      title:"Possible burn injury",
+      type:"Burn (instant safety guidance)",
+      guidance:"1) Cool the burn under cool running water for about 20 minutes. 2) Remove rings or tight items near it before swelling starts. 3) Do not use ice, butter, oil or toothpaste. 4) Cover loosely with a clean, non-fluffy cloth. 5) Call 112 for large, deep, facial or chemical burns."
+    };
+  }
+  if(has(["broken bone","fracture","broke my","broke his","broke her","cannot move leg","can't move leg"])) {
+    return {
+      risk:"MEDIUM",
+      title:"Possible broken bone",
+      type:"Injury (instant safety guidance)",
+      guidance:"1) Keep the person still and do not try to straighten the limb. 2) Support the injured area in the position found. 3) Apply a cold pack wrapped in cloth to reduce swelling. 4) Call 112 if there is heavy bleeding, bone visible, or the person cannot be moved safely. 5) Do not give food or drink in case surgery is needed."
+    };
+  }
+  if(has(["lost","stranded","stuck"])) {
+    return {
+      risk:"MEDIUM",
+      title:"Lost or stranded",
+      type:"Stranded (instant safety guidance)",
+      guidance:"1) Stay in a safe, public place. 2) Share your location with someone you trust. 3) Call 112 if you feel unsafe."
+    };
+  }
+  return {
+    risk:"MEDIUM",
+    title:"Stay safe and get help",
+    type:"Situation type not confirmed.",
+    guidance:"1) If anyone is in danger, call 112 right now. Do not wait for this app. 2) Move to a safe place if you can. 3) Tell someone you trust where you are. 4) Add more details (what happened, who is hurt) and try again, or read the Emergency Guide on this page."
+  };
+}
+
+/* ------------------------------------------------------------------
+   SAFE FALLBACK IN OTHER LANGUAGES (used when no AI answer is available
+   and the message is not written in English letters).
+   NOTE: should be reviewed by native speakers before public release.
+------------------------------------------------------------------ */
+const GENERIC = {
+  "hi-IN":["सुरक्षित रहें और 112 पर कॉल करें","स्थिति की पुष्टि नहीं हुई","1) अगर किसी की जान खतरे में है तो अभी 112 पर कॉल करें। 2) जल्दी से किसी सुरक्षित जगह पर जाएं। 3) अपने किसी भरोसेमंद व्यक्ति को बताएं कि आप कहां हैं।"],
+  "as-IN":["সুৰক্ষিত থাকক আৰু 112 নম্বৰত ফোন কৰক","পৰিস্থিতি নিশ্চিত কৰা হোৱা নাই","1) কোনোবা বিপদত থাকিলে এতিয়াই 112 নম্বৰত ফোন কৰক। 2) সোনকালে কোনো নিৰাপদ ঠাইলৈ যাওক। 3) আপুনি য'ত আছে সেই কথা কোনো বিশ্বাসী ব্যক্তিক জনাওক।"],
+  "bn-IN":["নিরাপদ থাকুন এবং 112-এ কল করুন","পরিস্থিতি নিশ্চিত করা যায়নি","1) কেউ বিপদে থাকলে এখনই 112-এ কল করুন। 2) দ্রুত কোনো নিরাপদ জায়গায় যান। 3) আপনি কোথায় আছেন তা কোনো বিশ্বস্ত ব্যক্তিকে জানান।"],
+  "ta-IN":["பாதுகாப்பாக இருங்கள், 112-ஐ அழைக்கவும்","நிலைமை உறுதிசெய்யப்படவில்லை","1) யாருக்காவது ஆபத்து இருந்தால் உடனே 112-ஐ அழைக்கவும். 2) விரைவாக பாதுகாப்பான இடத்திற்குச் செல்லுங்கள். 3) நீங்கள் எங்கு இருக்கிறீர்கள் என்பதை நம்பகமான ஒருவரிடம் சொல்லுங்கள்."],
+  "te-IN":["సురక్షితంగా ఉండండి, 112కు కాల్ చేయండి","పరిస్థితి నిర్ధారించబడలేదు","1) ఎవరికైనా ప్రమాదం ఉంటే వెంటనే 112కు కాల్ చేయండి. 2) త్వరగా సురక్షితమైన ప్రదేశానికి వెళ్లండి. 3) మీరు ఎక్కడ ఉన్నారో నమ్మకమైన వ్యక్తికి చెప్పండి."],
+  "mr-IN":["सुरक्षित राहा आणि 112 वर कॉल करा","परिस्थितीची खात्री झालेली नाही","1) कोणाच्या जीवाला धोका असल्यास लगेच 112 वर कॉल करा. 2) लवकर एखाद्या सुरक्षित ठिकाणी जा. 3) तुम्ही कुठे आहात ते एखाद्या विश्वासू व्यक्तीला सांगा."],
+  "gu-IN":["સુરક્ષિત રહો અને 112 પર કૉલ કરો","પરિસ્થિતિની પુષ્ટિ થઈ નથી","1) કોઈ જોખમમાં હોય તો તરત 112 પર કૉલ કરો. 2) ઝડપથી કોઈ સુરક્ષિત જગ્યાએ જાઓ. 3) તમે ક્યાં છો તે કોઈ ભરોસાપાત્ર વ્યક્તિને જણાવો."],
+  "kn-IN":["ಸುರಕ್ಷಿತವಾಗಿರಿ ಮತ್ತು 112ಕ್ಕೆ ಕರೆ ಮಾಡಿ","ಪರಿಸ್ಥಿತಿ ದೃಢಪಟ್ಟಿಲ್ಲ","1) ಯಾರಿಗಾದರೂ ಅಪಾಯವಿದ್ದರೆ ತಕ್ಷಣ 112ಕ್ಕೆ ಕರೆ ಮಾಡಿ. 2) ಬೇಗನೆ ಸುರಕ್ಷಿತ ಸ್ಥಳಕ್ಕೆ ಹೋಗಿ. 3) ನೀವು ಎಲ್ಲಿದ್ದೀರಿ ಎಂದು ನಂಬಿಕಸ್ಥ ವ್ಯಕ್ತಿಗೆ ತಿಳಿಸಿ."],
+  "ml-IN":["സുരക്ഷിതരായിരിക്കുക, 112-ൽ വിളിക്കുക","സാഹചര്യം സ്ഥിരീകരിച്ചിട്ടില്ല","1) ആർക്കെങ്കിലും അപകടമുണ്ടെങ്കിൽ ഉടൻ 112-ൽ വിളിക്കുക. 2) വേഗം സുരക്ഷിതമായ സ്ഥലത്തേക്ക് മാറുക. 3) നിങ്ങൾ എവിടെയാണെന്ന് വിശ്വസ്തനായ ഒരാളോട് പറയുക."],
+  "pa-IN":["ਸੁਰੱਖਿਅਤ ਰਹੋ ਅਤੇ 112 'ਤੇ ਕਾਲ ਕਰੋ","ਹਾਲਤ ਦੀ ਪੁਸ਼ਟੀ ਨਹੀਂ ਹੋਈ","1) ਜੇ ਕਿਸੇ ਦੀ ਜਾਨ ਖ਼ਤਰੇ ਵਿੱਚ ਹੈ ਤਾਂ ਹੁਣੇ 112 'ਤੇ ਕਾਲ ਕਰੋ। 2) ਜਲਦੀ ਕਿਸੇ ਸੁਰੱਖਿਅਤ ਥਾਂ 'ਤੇ ਜਾਓ। 3) ਤੁਸੀਂ ਕਿੱਥੇ ਹੋ, ਇਹ ਕਿਸੇ ਭਰੋਸੇਮੰਦ ਵਿਅਕਤੀ ਨੂੰ ਦੱਸੋ।"],
+  "or-IN":["ସୁରକ୍ଷିତ ରୁହନ୍ତୁ ଏବଂ 112କୁ କଲ କରନ୍ତୁ","ପରିସ୍ଥିତି ନିଶ୍ଚିତ ହୋଇନାହିଁ","1) କାହାର ବିପଦ ଥିଲେ ତୁରନ୍ତ 112କୁ କଲ କରନ୍ତୁ। 2) ଶୀଘ୍ର କୌଣସି ସୁରକ୍ଷିତ ସ୍ଥାନକୁ ଯାଆନ୍ତୁ। 3) ଆପଣ କେଉଁଠି ଅଛନ୍ତି ତାହା କୌଣସି ବିଶ୍ୱସ୍ତ ବ୍ୟକ୍ତିଙ୍କୁ ଜଣାନ୍ତୁ।"],
+  "ur-IN":["محفوظ رہیں اور 112 پر کال کریں","صورتحال کی تصدیق نہیں ہوئی","1) اگر کسی کی جان خطرے میں ہو تو فوراً 112 پر کال کریں۔ 2) جلدی کسی محفوظ جگہ پر جائیں۔ 3) اپنی جگہ کسی قابلِ اعتماد شخص کو بتائیں۔"]
+};
+
+function offlineForLanguage(message, langCode) {
+  const latinCount = (message.match(/[A-Za-z]/g) || []).length;
+  const mostlyLatin = latinCount > message.length * 0.5;
+  if(langCode === "en-IN" || mostlyLatin || !GENERIC[langCode]) {
+    return offlineAnalysis(message);
+  }
+  const g = GENERIC[langCode];
+  return { risk:"MEDIUM", title:g[0], type:g[1], guidance:g[2] };
+}
+
+async function analyzeSituation() {
+  const message = document.getElementById("userMessage").value.trim();
+  const key = sessionStorage.getItem("echohelp_key");
+
+  if(!message) {
+    alert("Please speak or type your situation first.");
+    return;
+  }
+
+  document.getElementById("loading").classList.remove("hidden");
+  document.getElementById("analyzeBtn").disabled = true;
+  document.getElementById("result").style.display = "none";
+
+  const langSel = document.getElementById("lang");
+  const langCode = langSel.value;
+  const langName = langSel.options[langSel.selectedIndex].dataset.name;
+
+  const prompt = `
+You are EchoHelp, a cautious emergency information assistant.
+
+Analyze the user's situation:
+"${message}"
+
+Return ONLY valid JSON in this exact structure:
+{
+ "risk":"HIGH, MEDIUM, or LOW",
+ "title":"Short situation title",
+ "type":"Emergency category and short explanation",
+ "guidance":"Give 3 to 5 concise, practical next steps."
+}
+
+Rules:
+- Prioritize immediate human safety.
+- If someone is unresponsive, not breathing normally, has severe bleeding,
+  severe breathing difficulty, fire, or immediate danger, classify HIGH.
+- Encourage contacting emergency services for immediate danger.
+- Do not diagnose medical conditions.
+- Never invent facts or claim help has been dispatched.
+- Give simple, calm and actionable advice.
+- If uncertain, say so.
+- Never tell users to delay emergency help while using this app.
+- The user is in India. The emergency number is 112. Never mention 911 or any other country's number.
+- Write "guidance" as ONE plain text string with numbered steps, like "1) ... 2) ... 3) ...".
+- Write the title, type and guidance in ${langName}. Keep the JSON keys in English, keep "112" as digits, and number steps with normal digits like 1) 2) 3).
+`;
+
+  try {
+    if(!key) throw new Error("NO_KEY");
+
+    const data = await callGemini(prompt, key);
+
+    const output = data.candidates?.[0]?.content?.parts
+      ?.map(p => p.text || "").join("");
+
+    if(!output) throw new Error("Empty AI response");
+
+    const clean = output.replace(/```json|```/g,"").trim();
+    const result = JSON.parse(clean);
+    displayResult(result);
+
+  } catch(error) {
+    if(error.message === "NO_KEY") {
+      // No key needed: give instant built-in safety guidance
+      displayResult(offlineForLanguage(message, langCode));
+    } else if(error.message === "BAD_KEY") {
+      alert("Your API key was rejected. Please check it and save it again.");
+    } else {
+      console.error(error);
+      // AI failed: show offline guidance instead of nothing
+      displayResult(offlineForLanguage(message, langCode));
+    }
+  } finally {
+    document.getElementById("loading").classList.add("hidden");
+    document.getElementById("analyzeBtn").disabled = false;
+  }
+}
+
+function displayResult(data) {
+  const risk = ["HIGH","MEDIUM","LOW"].includes(
+    String(data.risk).toUpperCase()
+  ) ? String(data.risk).toUpperCase() : "MEDIUM";
+
+  const badge = document.getElementById("riskBadge");
+  badge.textContent = risk + " RISK";
+  badge.className = "risk " + risk.toLowerCase();
+
+  // Show the Call 112 button only for HIGH risk
+  document.getElementById("highCall").classList.toggle("hidden", risk !== "HIGH");
+
+  document.getElementById("resultTitle").textContent =
+    data.title || "Situation analyzed";
+
+  document.getElementById("resultType").textContent =
+    data.type || "Category not confirmed.";
+
+  // If the AI sends the steps as a list, turn them into numbered lines
+  let guidanceText = data.guidance;
+  if(Array.isArray(guidanceText)) {
+    guidanceText = guidanceText.map((s,i) => (i+1) + ") " + s).join("\n");
+  }
+  guidanceText = String(guidanceText || "Contact emergency services (112) if in immediate danger.")
+    .replace(/911/g, "112")
+    .replace(/\s*(\d\))\s*/g, "\n$1 ")
+    .trim();
+
+  const guidanceEl = document.getElementById("resultGuidance");
+  guidanceEl.style.whiteSpace = "pre-line";
+  guidanceEl.textContent = guidanceText;
+
+  lastResult =
+    data.title + ". " + data.type + ". " + guidanceText.replace(/\n/g, " ");
+
+  document.getElementById("result").style.display = "block";
+}
+
+function speakResult() {
+  if(!lastResult) return;
+  if(!("speechSynthesis" in window)) {
+    alert("Speech playback is not supported.");
+    return;
+  }
+  speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(lastResult);
+  utterance.rate = 0.95;
+  utterance.lang = document.getElementById("lang").value;
+  speechSynthesis.speak(utterance);
+}
+
+async function getLocation() {
+  const output = document.getElementById("locationText");
+
+  if(!navigator.geolocation) {
+    output.textContent = "Geolocation is not supported.";
+    return;
+  }
+
+  output.textContent = "Requesting location permission...";
+
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      currentLocation = {
+        lat:position.coords.latitude,
+        lng:position.coords.longitude
+      };
+
+      output.textContent =
+        "Latitude: " + currentLocation.lat.toFixed(5) +
+        " | Longitude: " + currentLocation.lng.toFixed(5);
+
+      document.getElementById("shareLocationBtn")
+        .classList.remove("hidden");
+    },
+    error => {
+      output.textContent =
+        "Could not get location: " + error.message;
+    },
+    {enableHighAccuracy:true,timeout:10000}
+  );
+}
+
+async function shareLocation() {
+  if(!currentLocation) return;
+
+  const url =
+    "https://www.google.com/maps?q=" +
+    currentLocation.lat + "," + currentLocation.lng;
+
+  const text = "My current location: " + url;
+
+  if(navigator.share) {
+    try {
+      await navigator.share({
+        title:"My Emergency Location",
+        text:"Please check my location.",
+        url:url
+      });
+    } catch(error) {
+      if(error.name !== "AbortError") {
+        await copyLocation(text);
+      }
+    }
+  } else {
+    await copyLocation(text);
+  }
+}
+
+async function copyLocation(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    alert("Location link copied. You can now send it to a trusted contact.");
+  } catch(error) {
+    prompt("Copy your location link:",text);
+  }
+}
+
+async function shareResult() {
+  if(!lastResult) return;
+
+  try {
+    if(navigator.share) {
+      await navigator.share({
+        title:"EchoHelp Emergency Guidance",
+        text:lastResult
+      });
+    } else {
+      await navigator.clipboard.writeText(lastResult);
+      alert("Guidance copied to clipboard.");
+    }
+  } catch(error) {
+    if(error.name !== "AbortError") {
+      alert("Unable to share this guidance.");
+    }
+  }
+}
+</script>
+
+</body>
+</html>
